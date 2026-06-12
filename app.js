@@ -23,7 +23,8 @@ const DEFAULT_TARIFS = {
 
 // Variable globale pour stocker les tarifs actifs
 let activeTarifs = JSON.parse(localStorage.getItem('mousse_tarifs')) || JSON.parse(JSON.stringify(DEFAULT_TARIFS));
-let activeMarkup = parseFloat(localStorage.getItem('mousse_markup')) !== undefined && localStorage.getItem('mousse_markup') !== null ? parseFloat(localStorage.getItem('mousse_markup')) : 10.0;
+let storedMarkup = localStorage.getItem('mousse_markup');
+let activeMarkup = (storedMarkup !== null && !isNaN(parseFloat(storedMarkup))) ? parseFloat(storedMarkup) : 10.0;
 
 // Variables pour les entrées utilisateur
 let selectedThickness = 10;
@@ -224,7 +225,7 @@ function calculateResults() {
     percentEl.textContent = `${marginPercent.toFixed(1)}%`;
     const circle = document.querySelector('.progress-ring-circle');
     if (circle) {
-        const radius = circle.r.baseVal.value;
+        const radius = parseFloat(circle.getAttribute('r')) || 58;
         const circumference = 2 * Math.PI * radius;
         circle.style.strokeDasharray = `${circumference} ${circumference}`;
         

@@ -370,7 +370,7 @@ function setupThemeToggle() {
     const root = document.documentElement;
 
     // Check saved theme
-    const savedTheme = localStorage.getItem('mousse_theme') || 'dark';
+    const savedTheme = localStorage.getItem('mousse_theme') || 'light';
     root.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
 

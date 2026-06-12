@@ -30,6 +30,7 @@ let activeMarkup = (storedMarkup !== null && !isNaN(parseFloat(storedMarkup))) ?
 let selectedThickness = 10;
 let metrage = 120;
 let clientPrice = 10000;
+let clientPricePerM2 = 83.33;
 let distance = 0; // 0: <=30km, 1: 30-60km, 2: >60km
 let partnerDiscount = false;
 let quickPayment = false;
@@ -46,11 +47,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listeners
     document.getElementById('input-metrage').addEventListener('input', (e) => {
         metrage = Math.max(0, parseFloat(e.target.value) || 0);
+        clientPrice = metrage * clientPricePerM2;
+        document.getElementById('input-client-price').value = clientPrice.toFixed(2);
+        calculateResults();
+    });
+
+    document.getElementById('input-client-price-m2').addEventListener('input', (e) => {
+        clientPricePerM2 = Math.max(0, parseFloat(e.target.value) || 0);
+        clientPrice = metrage * clientPricePerM2;
+        document.getElementById('input-client-price').value = clientPrice.toFixed(2);
         calculateResults();
     });
 
     document.getElementById('input-client-price').addEventListener('input', (e) => {
         clientPrice = Math.max(0, parseFloat(e.target.value) || 0);
+        clientPricePerM2 = metrage > 0 ? clientPrice / metrage : 0;
+        document.getElementById('input-client-price-m2').value = clientPricePerM2.toFixed(2);
         calculateResults();
     });
 
@@ -128,6 +140,7 @@ function initThicknessGrid() {
 // Charger les valeurs par défaut dans les inputs
 function loadInputs() {
     document.getElementById('input-metrage').value = metrage;
+    document.getElementById('input-client-price-m2').value = clientPricePerM2;
     document.getElementById('input-client-price').value = clientPrice;
     document.getElementById('input-markup').value = activeMarkup;
 }

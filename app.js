@@ -369,6 +369,12 @@ function setupThemeToggle() {
     const toggleBtn = document.getElementById('theme-toggle');
     const root = document.documentElement;
 
+    // Force light theme on first load of this update
+    if (!localStorage.getItem('mousse_theme_reset_v2')) {
+        localStorage.setItem('mousse_theme', 'light');
+        localStorage.setItem('mousse_theme_reset_v2', 'true');
+    }
+
     // Check saved theme
     const savedTheme = localStorage.getItem('mousse_theme') || 'light';
     root.setAttribute('data-theme', savedTheme);
